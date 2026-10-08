@@ -1,0 +1,75 @@
+server:
+  servlet:
+    context-path: /xuyuanqiao
+  port: 8083
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/study?characterEncoding=UTF-8&&serverTimezone=GMT
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource       #数据库连接池
+    druid:
+      initial-size: 5                                  #初始化大小
+      min-idle: 10                                     #最小连接数
+      max-active: 20                                   #最大连接数
+      max-wait: 60000                                   #获取连接时的最大等待时间
+      validation-query: SELECT 1                       #检测连接是否有效的sql语句，为空时以下三个配置均无效
+      test-on-borrow: true                             #申请连接时执行validation-query检测连接是否有效，默认true,开启后会降低性能
+      test-while-idle: true                            #申请连接时如果空闲时间大于timeBetweenEvictionRunsMillis,执行validationQuery检测连接池是否
+      test-on-return: false
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      password: Power4005
+      timeout: 3000ms
+    #归还连接时执行validation-query检测连接是否有效，默认false,开启后会降低性能
+
+  # ========== Spring AI 配置 ==========
+  ai:
+    openai:
+      # 官方 OpenAI: https://api.openai.com
+      # DeepSeek: https://api.deepseek.com
+      # 通义千问: https://dashscope.aliyuncs.com/compatible-mode
+      # 智谱 GLM: https://open.bigmodel.cn/api/paas/v4
+      base-url: https://open.bigmodel.cn/api/paas/v4
+      api-key: 46944ecad93144e4b55be337d5f46b91.cn15Dvu8ICHXd060
+      chat:
+        # Spring AI 默认拼 /v1/chat/completions，智谱路径已带 v4，所以要改
+        completions-path: /chat/completions
+        options:
+          # DeepSeek: deepseek-chat / deepseek-reasoner
+          # 通义千问: qwen-turbo / qwen-plus / qwen-max
+          # 智谱 GLM: glm-4.5-flash(免费,支持工具调用) / glm-4(付费) / glm-4-plus
+          model: glm-4.5-flash
+          temperature: 0.7
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.study.demo.controller
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    swagger-model-name: 实体类列表
+
+mybatis-plus:
+  configuration:
+    # MyBatis 配置 开启驼峰功能
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #为MyBatis引用的实体类自定义别名
+  type-aliases-package: com.study.dome.entity

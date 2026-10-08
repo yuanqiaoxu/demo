@@ -1,0 +1,8 @@
+-- AI 对话记录表
+CREATE TABLE IF NOT EXISTS chat_message (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
+    user_id BIGINT NOT NULL COMMENT '用户ID',
+    role VARCHAR(20) NOT NULL COMMENT '角色：user=用户，assistant=AI',
+    content TEXT NOT NULL COMMENT '消息内容',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='AI 对话记录表';
